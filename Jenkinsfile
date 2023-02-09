@@ -34,6 +34,13 @@ pipeline {
             }
          }
       }
+      stage("Tag and Push") {
+         steps {
+                sh "docker tag jenkins-pipeline_web:latest seokhyeonheo/jenkins-app:${BUILD_NUMBER}"
+                sh "docker login -u seokhyeonheo -p ${DOCKER_USER_PASSWORD}"
+                sh "docker push seokhyeonheo/jenkins-app:${BUILD_NUMBER}"
+         }
+      }
       stage("deploy") {
          steps {
             sh "docker-compose up -d"
